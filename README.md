@@ -1,0 +1,1 @@
+This app will allow DBAs to query Tableau Server / Cloud for tables and databases prior to updates to determine impact
