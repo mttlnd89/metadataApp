@@ -10,7 +10,11 @@ messages = [{'title': 'Message One',
 
 @app.route("/")
 def index():
-    return render_template('index.html',messages=messages)
+    return render_template('index.html')
+
+@app.route('/create', methods=('GET','POST'))
+def create():
+    return render_template('create.html')
 
 #if __name__ == "__main__":
 #    app.run()
