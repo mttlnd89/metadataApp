@@ -1,20 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import datetime
+from metadataAPI import apiQuery
 
 app = Flask(__name__)
 
-messages = [{'title': 'Message One',
-             'content': 'Message One Content'},
-            {'title': 'Message Two',
-             'content': 'Message Two Content'}
-            ]
-
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html',utc_dt=datetime.datetime.utcnow())
 
-@app.route('/create', methods=('GET','POST'))
-def create():
-    return render_template('create.html')
+
+@app.route('/about',methods=['GET'])
+def about():
+    return render_template('about.html')
 
 #if __name__ == "__main__":
 #    app.run()
