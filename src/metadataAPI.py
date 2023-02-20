@@ -8,7 +8,7 @@ class apiQuery:
                         format='%(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
     
 
-    def databaseQuery(self):
+    def databaseQuery():
 
         try:
             with open('config/dev/config.yaml','r') as file:
@@ -39,10 +39,11 @@ class apiQuery:
             for ds in datasources:
                 dsNames.append(ds['name'])
 
+
         return list(set(dsNames))
     
 
-    def workbookquery():
+    def workbookQuery(database):
 
         try:
             with open('config/dev/config.yaml','r') as file:
@@ -51,8 +52,8 @@ class apiQuery:
             logging.debug(error)
 
         query2 = """
-        {
-            databases (filter: {name: "megaGymDataset.csv"})
+        query ShowMeTheMoney($db:String){
+            databases (filter: {name: $db})
             {
                 name
                 tables
@@ -63,25 +64,28 @@ class apiQuery:
                 name
                 }
             }
-        } 
+        }
             """
         tableau_auth = TSC.TableauAuth(config['user'], config['pass'], config['site'])
         server = TSC.Server(config['server'], use_server_version=True)
 
         wbNames = []
-
+        graphqlbullshit = {'db' : database}
+        print(query2)
         with server.auth.sign_in(tableau_auth):
-            resp = server.metadata.query(query2)
-            print(resp)
+            resp = server.metadata.query(query2,variables=graphqlbullshit)
+            print('-------------------------This is the response from the metadata query:\n\n', resp, '\n\n------------------------')
+#           resp = server.metadata.query(query2,variables=database)
 
             workbooks = resp['data']['databases']
-            print(workbooks)
-
 
             for wb in workbooks:
-                wbNames.append(wb['name'])
+                    dsWB = wb['downstreamWorkbooks']
+                    if dsWB != []:
+                        tempVar = dsWB[0]
+                        dsWBName = tempVar['name']
+                        wbNames.append(dsWBName)
 
-            print(wbNames)
 
         return list(set(wbNames))
 

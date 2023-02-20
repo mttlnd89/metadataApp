@@ -3,16 +3,14 @@
 {% block content %}
     <h1>{% block title %} Database Update Check {% endblock %}</h1>
     <h1>List of all Databases connected to on Tableau Server / Cloud</h1>
-    <form action="#" method="POST">
+    <form action="#" method="GET">
 
         <label for="database">Database:</label>
-        <select name="db">
-            {% for database in dbList %}
-              <option value="{{ database }}" SELECTED>{{ database }}</option>
-            {% endfor %}     
+        <select id="db" name="database">
+
         </select>
-        <p><input type="Submit", value="submit"></p>
+        <input type="Submit">
+
     </form>>
     <h3>{{ utc_dt }}</h3>
 {% endblock %}
-
