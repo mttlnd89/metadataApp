@@ -26,7 +26,6 @@ class apiQuery:
         }
             """
 
-
         tableau_auth = TSC.TableauAuth(config['user'], config['pass'], config['site'])
         server = TSC.Server(config['server'], use_server_version=True)
 
